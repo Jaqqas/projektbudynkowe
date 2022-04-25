@@ -11,6 +11,7 @@ function App() {
     const[password, setPassword] = useState("");
 
     const [loginStatus, setLoginStatus] = useState("");
+
     const register = () => {
         Axios.post('http://localhost:3001/register',
             {login: loginReg,
@@ -21,14 +22,14 @@ function App() {
     };
 
     const login = () => {
-        Axios.post('http://localhost:3001/register',
+        Axios.post('http://localhost:3001/login',
             {login: login2,
                 password: password,
             }).then((Response) =>{
                 if(Response.data.message){
-                    setLoginStatus(Response.data.message);
+                    setLoginStatus(Response.data.message)
                 } else {
-                    setLoginStatus(Response.data[0].login2);
+                    setLoginStatus(Response.data[0].login)
                 }
             console.log(Response);
         });
@@ -37,7 +38,31 @@ function App() {
 
     return (
     <div className="App">
-      <div className="Kontener">
+
+      <div className="kontener">
+
+          <div className="register">
+              <h2>Rejestracja</h2>
+              <label>Login:</label>
+              <input
+                  type="text"
+                  name="login"
+                  placeholder="login..."
+                  onChange={(e) =>{
+                      setLoginReg(e.target.value);
+                  }}
+              />
+              <label>Haslo:</label>
+              <input
+                  type="password"
+                  name="password"
+                  placeholder="haslo..."
+                  onChange={(e) => {
+                      setPasswordReg(e.target.value);
+                  }}
+              />
+              <button onClick={register}>Zarejestruj</button>
+          </div>
 
         <div className="login">
             <h2>Logowanie</h2>
@@ -63,28 +88,7 @@ function App() {
             <h1>{loginStatus}</h1>
         </div>
 
-        <div className="register">
-            <h2>Rejestracja</h2>
-            <label>Login:</label>
-            <input
-                type="text"
-                name="login"
-                placeholder="login..."
-                onChange={(e) =>{
-                    setLoginReg(e.target.value);
-                }}
-            />
-            <label>Haslo:</label>
-            <input
-                type="password"
-                name="password"
-                placeholder="haslo..."
-                onChange={(e) => {
-                    setPasswordReg(e.target.value);
-                }}
-            />
-            <button onClick={register}>Zarejestruj</button>
-        </div>
+
 
       </div>
 
