@@ -7,6 +7,10 @@ function App() {
     const[loginReg, setLoginReg] = useState("");
     const[passwordReg, setPasswordReg] = useState("");
 
+    const[login2, setLogin] = useState("");
+    const[password, setPassword] = useState("");
+
+    const [loginStatus, setLoginStatus] = useState("");
     const register = () => {
         Axios.post('http://localhost:3001/register',
             {login: loginReg,
@@ -16,17 +20,47 @@ function App() {
         })
     };
 
-  return (
+    const login = () => {
+        Axios.post('http://localhost:3001/register',
+            {login: login2,
+                password: password,
+            }).then((Response) =>{
+                if(Response.data.message){
+                    setLoginStatus(Response.data.message);
+                } else {
+                    setLoginStatus(Response.data[0].login2);
+                }
+            console.log(Response);
+        });
+    };
+
+
+    return (
     <div className="App">
       <div className="Kontener">
 
         <div className="login">
             <h2>Logowanie</h2>
             <label>Login:</label>
-            <input type="text"  name="login" placeholder="login..."/>
+            <input
+                type="text"
+                name="login"
+                placeholder="login..."
+                onChange={(e) =>{
+                    setLogin(e.target.value);
+                }}
+            />
             <label>Haslo:</label>
-            <input type="password"  name="password" placeholder="haslo..."/>
-            <button>Zaloguj</button>
+            <input
+                type="password"
+                name="password"
+                placeholder="haslo..."
+                onChange={(e) => {
+                    setPassword(e.target.value);
+                }}
+            />
+            <button onClick={login}>Zaloguj</button>
+            <h1>{loginStatus}</h1>
         </div>
 
         <div className="register">
@@ -51,7 +85,9 @@ function App() {
             />
             <button onClick={register}>Zarejestruj</button>
         </div>
+
       </div>
+
     </div>
   );
 }
